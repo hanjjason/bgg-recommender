@@ -1,0 +1,11 @@
+# VSCODE SETTINGS
+.vscode
+
+# PYTHON
+venv/
+# Byte-compiled / optimized / DLL files
+server/__pycache__/
+
+# JS
+client/package-lock.json
+client/node_modules

@@ -36,7 +36,6 @@ while greater:
     for i in range(1, len(table)):
         image = table[i].find('td', class_ = 'collection_thumbnail').find('img')['src']
         link = table[i].find('td', class_ = 'collection_thumbnail').find('a')['href']
-        print(image, link)
 
         # print(i) # debug to see if it was collecting 100 per page
         ratings = table[i].find_all('td', class_ = 'collection_bggrating')
@@ -59,6 +58,6 @@ while greater:
 
         df_info = df_info.append(pd.Series([idNum, name, rank, image, link, bggRating, avgRating, numRatings], index=['id', 'name', 'rank', 'image', 'link', 'bggRating', 'avgRating', 'numRatings']), ignore_index=True) # append data
 
+    print(pageNum)
     pageNum += 1 #increment page number
-    greater = False
-#df_info.to_csv('bg_info.csv', encoding='utf-8', index=False)
+df_info.to_csv('bg_info.csv', encoding='utf-8', index=False)

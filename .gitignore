@@ -3,6 +3,9 @@
 
 # PYTHON
 venv/
+server/bg_ratings.csv
+server/bg_info.csv
+
 # Byte-compiled / optimized / DLL files
 server/__pycache__/
 

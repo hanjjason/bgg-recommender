@@ -1,15 +1,19 @@
 import pandas as pd
 import numpy as np
+import os
 from scipy.sparse.linalg import svds
 
-ratings_df = pd.read_csv('bg_ratings.csv')
-bg_df = pd.read_csv('bg_info.csv')
+ratings_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bg_ratings.csv')
+info_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bg_info.csv')
+
+ratings_df = pd.read_csv(ratings_file)
+bg_df = pd.read_csv(info_file)
 
 v = ratings_df.username.value_counts()
 ratings_df = ratings_df[ratings_df.username.isin(v.index[v.gt(20)])]
 
-R_df = ratings_df.pivot_table(index = 'username', columns = 'id', values = 'rating', aggfunc = 'mean').fillna(0)
-R = R_df.as_matrix()
+R_df = ratings_df.pivot_table(index = 'username', columns = 'game_id', values = 'rating', aggfunc = 'mean').fillna(0)
+R = R_df.to_numpy()
 user_ratings_mean = np.mean(R, axis = 1)
 #R_demeaned = R - user_ratings_mean.reshape(-1, 1)
 
@@ -25,13 +29,16 @@ for user in R_df.index:
     userID_dict[user] = i
     i += 1
 
-def recommender(predictions_df, username, movies_df, original_ratings_df, num_recommendations = 10):
+def recommender(username, predictions_df = preds_df, board_df = bg_df, original_ratings_df = ratings_df, num_recommendations = 10):
+    if (not username in userID_dict):
+        return None
+
     userID = userID_dict[username]
 
     sorted_user_predictions = predictions_df.loc[userID].sort_values(ascending = False)
 
     user_data = original_ratings_df[original_ratings_df.username == username]
-    user_full = (user_data.merge(bg_df, how = 'left', left_on = 'id', right_on = 'id').
+    user_full = (user_data.merge(board_df, how = 'left', left_on = 'id', right_on = 'id').
                     sort_values(['rating'], ascending = False)
                 )
 
@@ -48,7 +55,7 @@ def recommender(predictions_df, username, movies_df, original_ratings_df, num_re
 
     return user_full, recommendations
 
-already_rated, predictions = recommender(preds_df, 'xiadow', bg_df, ratings_df, 10)
+already_rated, predictions = recommender('xiadow')
 
-print(already_rated.head(10))
+#print(already_rated.head(10))
 print(predictions.head(10))

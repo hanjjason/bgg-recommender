@@ -27,17 +27,12 @@ class App extends Component{
       })));
   }
 
-  fetchData() {
-    axios.get(`/api/user/${this.state.username}`)
-      .then((data) => (this.setState({
-        'data': data
-      })));
-  }
-
   changeActiveUser(user) {
-    this.setState({
-      'username': user
-    });
+    axios.get(`/api/recommend/${user}`)
+      .then((results) => (this.setState({
+        'username': user,
+        'data': results.data.data
+      })));
   }
 
   toggleModal(game) {

@@ -3,13 +3,9 @@ I'm an avid board game fan and something many board game fans seem to want (incl
 Reddit even has a megathread for WSIG (What Should I Get) posts for people to recommend games to each other.
 
 ## Table of Contents
-1. [Overview] (#Overview)
-1. [Usage] (#Usage)
-1. [Requirements] (#Requirements)
-1. [Development] (#Development)
-
-## Overview
-
+1. [Usage](#usage)
+1. [Requirements](#requirements)
+1. [Development](#development)
 
 ## Usage
 You can run the server from the root folder with the following:
